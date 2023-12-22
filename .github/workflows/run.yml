@@ -11,6 +11,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: create env file
+      run: |
+        echo "${{ secrets.ENV }}" > .env
+
     - name: Setup Python
       uses: actions/setup-python@v2
       with:
