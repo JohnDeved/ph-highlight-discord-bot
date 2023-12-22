@@ -4,7 +4,7 @@ from helper.config import GH_TOKEN
 GIST_ID = "9cc9852a7a78c168f1a4242d91a5c0ff"
 
 def get_json() -> list[str]:
-    response = requests.get(f"https://api.github.com/gists/9cc9852a7a78c168f1a4242d91a5c0ff")
+    response = requests.get(f"https://api.github.com/gists/{GIST_ID}")
     return json.loads(response.json()["files"]["ph.json"]["content"])
 
 def set_json(data: list[str]):
