@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 
 def get_popular_videos():
-    response = requests.get("https://www.pornhub.com/video?o=mv&cc=world")
+    response = requests.get("https://www.pornhub.com/video?p=homemade&o=mv&cc=world")
     soup = BeautifulSoup(response.text, 'html.parser')
     videos = soup.select("#videoCategory.videos > .videoBox")
     
