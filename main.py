@@ -6,7 +6,7 @@ from helper.db import get_json, set_json
 uploaded_videos = get_json()
 videos = [v
     for v in get_popular_videos() 
-        if v not in get_json()
+        if v not in uploaded_videos
 ]
 
 for video in videos:
