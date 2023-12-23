@@ -23,6 +23,7 @@ def get_video_meta(url: str):
             if hotspots_match:
                 hotspots: list[int] = json.loads(hotspots_match.group(1))
 
+        if 'video_duration' in script.text:
             video_duration_match = re.search(r'"video_duration":(\d+)', script.text)
             if video_duration_match:
                 video_duration = int(video_duration_match.group(1))
