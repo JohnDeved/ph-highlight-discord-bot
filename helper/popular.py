@@ -1,8 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 from enum import Enum
-import os
-from helper.config import PH_ENDPOINT
+from helper.config import PH_ENDPOINT, TIME_PERIOD
 
 class TimePeriod(Enum):
     ALL_TIME = 'a'
@@ -10,10 +9,8 @@ class TimePeriod(Enum):
     THIS_WEEK = 'w'
     THIS_MONTH = 'm'
     THIS_YEAR = 'y'
-    
-default_time = os.environ.get('TIME_PERIOD', 'THIS_WEEK')
 
-def get_popular_videos(time_period: TimePeriod = TimePeriod[default_time]):
+def get_popular_videos(time_period: TimePeriod = TimePeriod[TIME_PERIOD]):
     url = f"{PH_ENDPOINT}/video?p=homemade&o=mv&t={time_period.value}&cc=world"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
