@@ -22,17 +22,42 @@ jobs:
       with:
         python-version: '3.x'
 
+    - name: Cache pip
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Cache ffmpeg
+      uses: actions/cache@v2
+      with:
+        path: /usr/bin/ffmpeg
+        key: ffmpeg-${{ github.run_id }}
+        restore-keys: ffmpeg-
+
+    - name: Cache yt-dlp
+      uses: actions/cache@v2
+      with:
+        path: /usr/local/bin/yt-dlp
+        key: yt-dlp-${{ github.run_id }}
+        restore-keys: yt-dlp-
+    
     - name: Install dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y ffmpeg
-        pip install -r requirements.txt
+        if [ ! -f /usr/bin/ffmpeg ]; then
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+        fi
+        
+        if [ ! -f /usr/local/bin/yt-dlp ]; then
+          curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o yt-dlp
+          chmod a+rx yt-dlp
+          sudo mv yt-dlp /usr/local/bin/
+        fi
 
-    - name: Install yt-dlp
-      run: |
-        curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o yt-dlp
-        chmod a+rx yt-dlp
-        sudo mv yt-dlp /usr/local/bin/
+        pip install -r requirements.txt
 
     - name: Run script
       run: python main.py
