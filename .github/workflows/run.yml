@@ -31,11 +31,7 @@ jobs:
           ${{ runner.os }}-pip-
 
     - name: Cache ffmpeg
-      uses: actions/cache@v3
-      with:
-        path: ~/bin/ffmpeg
-        key: ${{ runner.os }}-ffmpeg
-        restore-keys: ${{ runner.os }}-ffmpeg
+      uses: FedericoCarboni/setup-ffmpeg@v2
 
     - name: Cache yt-dlp
       uses: actions/cache@v3
@@ -48,12 +44,6 @@ jobs:
       run: |
         mkdir -p ~/bin
         echo "$HOME/bin" >> $GITHUB_PATH
-
-        if [ ! -f ~/bin/ffmpeg ]; then
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
-          cp /usr/bin/ffmpeg ~/bin/ffmpeg
-        fi
 
         if [ ! -f ~/bin/yt-dlp ]; then
           curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o ~/bin/yt-dlp
