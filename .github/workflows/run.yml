@@ -11,19 +11,19 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: create env file
       run: |
         echo "${{ secrets.ENV }}" > .env
 
     - name: Setup Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: '3.x'
 
     - name: Cache pip
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
@@ -31,18 +31,18 @@ jobs:
           ${{ runner.os }}-pip-
 
     - name: Cache ffmpeg
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: /usr/bin/ffmpeg
-        key: ffmpeg-${{ github.run_id }}
-        restore-keys: ffmpeg-
+        key: ${{ runner.os }}-ffmpeg-${{ github.run_id }}
+        restore-keys: ${{ runner.os }}-ffmpeg-
 
     - name: Cache yt-dlp
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: /usr/local/bin/yt-dlp
-        key: yt-dlp-${{ github.run_id }}
-        restore-keys: yt-dlp-
+        key: ${{ runner.os }}-yt-dlp-${{ github.run_id }}
+        restore-keys: ${{ runner.os }}-yt-dlp-
     
     - name: Install dependencies
       run: |
@@ -50,7 +50,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ffmpeg
         fi
-        
+
         if [ ! -f /usr/local/bin/yt-dlp ]; then
           curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o yt-dlp
           chmod a+rx yt-dlp
