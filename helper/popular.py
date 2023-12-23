@@ -11,9 +11,9 @@ class TimePeriod(Enum):
     THIS_MONTH = 'm'
     THIS_YEAR = 'y'
     
-default_time = TimePeriod(os.environ.get('TIME_PERIOD', TimePeriod.THIS_WEEK.value))
+default_time = os.environ.get('TIME_PERIOD', 'THIS_WEEK')
 
-def get_popular_videos(time_period: TimePeriod = default_time):
+def get_popular_videos(time_period: TimePeriod = TimePeriod[default_time]):
     url = f"{PH_ENDPOINT}/video?p=homemade&o=mv&t={time_period.value}&cc=world"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
