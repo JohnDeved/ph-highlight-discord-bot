@@ -33,28 +33,31 @@ jobs:
     - name: Cache ffmpeg
       uses: actions/cache@v3
       with:
-        path: /usr/bin/ffmpeg
-        key: ${{ runner.os }}-ffmpeg-${{ github.run_id }}
-        restore-keys: ${{ runner.os }}-ffmpeg-
+        path: ~/bin/ffmpeg
+        key: ${{ runner.os }}-ffmpeg
+        restore-keys: ${{ runner.os }}-ffmpeg
 
     - name: Cache yt-dlp
       uses: actions/cache@v3
       with:
-        path: /usr/local/bin/yt-dlp
-        key: ${{ runner.os }}-yt-dlp-${{ github.run_id }}
-        restore-keys: ${{ runner.os }}-yt-dlp-
-    
+        path: ~/bin/yt-dlp
+        key: ${{ runner.os }}-yt-dlp
+        restore-keys: ${{ runner.os }}-yt-dlp
+
     - name: Install dependencies
       run: |
-        if [ ! -f /usr/bin/ffmpeg ]; then
+        mkdir -p ~/bin
+        echo "$HOME/bin" >> $GITHUB_PATH
+
+        if [ ! -f ~/bin/ffmpeg ]; then
           sudo apt-get update
           sudo apt-get install -y ffmpeg
+          cp /usr/bin/ffmpeg ~/bin/ffmpeg
         fi
 
-        if [ ! -f /usr/local/bin/yt-dlp ]; then
-          curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o yt-dlp
-          chmod a+rx yt-dlp
-          sudo mv yt-dlp /usr/local/bin/
+        if [ ! -f ~/bin/yt-dlp ]; then
+          curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o ~/bin/yt-dlp
+          chmod a+rx ~/bin/yt-dlp
         fi
 
         pip install -r requirements.txt
