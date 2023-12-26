@@ -11,4 +11,4 @@ if not GH_TOKEN:
     raise ValueError("GH_TOKEN is not set in the environment.")
 
 PH_ENDPOINT = os.getenv("PH_ENDPOINT", "https://www.pornhub.com")
-TIME_PERIOD = os.getenv('TIME_PERIOD', 'THIS_WEEK')
+TIME_PERIOD = os.getenv('TIME_PERIOD', 'TODAY')
