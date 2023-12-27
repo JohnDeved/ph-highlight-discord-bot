@@ -8,8 +8,9 @@ def get_json() -> list[str]:
     return json.loads(response.json()["files"]["ph.json"]["content"])
 
 def set_json(data: list[str]):
+    data.sort()
     requests.patch(
         f"https://api.github.com/gists/{GIST_ID}",
         headers={"Accept": "application/vnd.github+json", "Authorization": f"Bearer {GH_TOKEN}"},
-        json={"files": {"ph.json": {"content": json.dumps(data.sort(), indent=2)}}}
+        json={"files": {"ph.json": {"content": json.dumps(data, indent=2)}}}
     )
