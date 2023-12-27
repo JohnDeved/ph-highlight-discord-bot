@@ -11,5 +11,5 @@ def set_json(data: list[str]):
     requests.patch(
         f"https://api.github.com/gists/{GIST_ID}",
         headers={"Accept": "application/vnd.github+json", "Authorization": f"Bearer {GH_TOKEN}"},
-        json={"files": {"ph.json": {"content": json.dumps(data, indent=2)}}}
+        json={"files": {"ph.json": {"content": json.dumps(data.sort(), indent=2)}}}
     )
